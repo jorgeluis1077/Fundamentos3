@@ -32,7 +32,24 @@ class LnkdLst{
         }
         current.next = newStudent;
         }
+    public void print(){
+        Student current = this.head;
+        while(current != null ){
+            System.out.println(current.name +" - "+current.score);
+            current = current.next;
+        }
+    }
+    public Student retrieve(String searchedName){
+        Student current = this.head;
+        while (current != null){
+            if (current.name.equals(searchedName)){
+                return current;
+            }
+        }
+        return null;
+    }
 }
+
 
 public class PruebaLinkedList {
     public static void main(String[] args){
@@ -40,6 +57,9 @@ public class PruebaLinkedList {
         lista.add("Linus", 90);
         lista.add("Ada", 95);
         lista.add("Paul", 78);
+        lista.print();
+        Student found = lista.retrieve("Ada");
+        System.out.println("Found"+found.name+" score:"+found.score);
     }
 }
 
