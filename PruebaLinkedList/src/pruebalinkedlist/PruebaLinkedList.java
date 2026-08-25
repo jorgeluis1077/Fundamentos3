@@ -45,6 +45,7 @@ class LnkdLst{
             if (current.name.equals(searchedName)){
                 return current;
             }
+            current = current.next;
         }
         return null;
     }
@@ -59,7 +60,11 @@ public class PruebaLinkedList {
         lista.add("Paul", 78);
         lista.print();
         Student found = lista.retrieve("Ada");
-        System.out.println("Found"+found.name+" score:"+found.score);
+        System.out.println("Found "+found.name+" score:"+found.score);
+        found = lista.retrieve("Guido");
+        if (found != null){
+            System.out.println("Found"+found.name+" score:"+found.score);
+        }
     }
 }
 
