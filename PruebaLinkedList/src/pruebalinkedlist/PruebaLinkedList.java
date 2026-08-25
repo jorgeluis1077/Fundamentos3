@@ -49,6 +49,24 @@ class LnkdLst{
         }
         return null;
     }
+    public void remove(int n){
+        if (head == null){
+            return;
+        }//Empty list
+        if (n < 0 ){
+            return;
+        }//Negative index
+        int index = 0;
+        Student current = head;
+        while( current != null && index < (n-1)){
+            current = current.next;
+            index++;
+        }
+        if(current!=null || current.next == null){
+            return; //position out of range
+        }
+        current.next = current.next.next;
+    }
 }
 
 
