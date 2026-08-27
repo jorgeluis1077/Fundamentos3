@@ -6,6 +6,7 @@ package pruebalinkedlist;
 class Student{
     String name;
     int score;
+    
     Student next;
     public Student(String name, int score){
         this.name = name;
@@ -15,6 +16,7 @@ class Student{
 }
 class LnkdLst{
     Student head;
+    int index = 0;
     public LnkdLst()//Constructor
     {
         this.head = null;
@@ -24,6 +26,7 @@ class LnkdLst{
         Student newStudent = new Student(name, score);
         if(head == null){
             head = newStudent;
+            this.index++;
             return;
         }
         Student current=head;
@@ -31,6 +34,7 @@ class LnkdLst{
             current = current.next;
         }
         current.next = newStudent;
+        this.index++;
         }
     public void print(){
         Student current = this.head;
@@ -56,18 +60,22 @@ class LnkdLst{
         if (n < 0 ){
             return;
         }//Negative index
+        if(n >= this.index){return;}
         int index = 0;
         Student current = head;
         while( current != null && index < (n-1)){
             current = current.next;
             index++;
         }
-        if(current!=null || current.next == null){
+        if(current==null || current.next == null){
             return; //position out of range
         }
         current.next = current.next.next;
+        this.index--;
     }
 }
+
+
 
 
 public class PruebaLinkedList {
@@ -78,11 +86,15 @@ public class PruebaLinkedList {
         lista.add("Paul", 78);
         lista.print();
         Student found = lista.retrieve("Ada");
-        System.out.println("Found "+found.name+" score:"+found.score);
-        found = lista.retrieve("Guido");
-        if (found != null){
-            System.out.println("Found"+found.name+" score:"+found.score);
+        if (found != null) {
+            System.out.println("Found: " + found.name + " - " + found.score);
+        } else {
+            System.out.println("Student not found");
+        }
+        lista.remove(3);
+        System.out.println("After removing the tree student:");
+        lista.print();
+
+
         }
     }
-}
-
