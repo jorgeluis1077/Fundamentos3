@@ -16,24 +16,24 @@ class Student{
 }
 class LnkdLst{
     Student head;
+    Student tail;
     int index = 0;
     public LnkdLst()//Constructor
     {
         this.head = null;
+        this.tail = null;
     }
     //Agregar un nuevo estudiante al fial de la lista
     public void add(String name, int score){
         Student newStudent = new Student(name, score);
         if(head == null){
             head = newStudent;
+            tail = newStudent;
             this.index++;
             return;
         }
-        Student current=head;
-        while(current.next != null){
-            current = current.next;
-        }
-        current.next = newStudent;
+        tail.next = newStudent;
+        tail = newStudent;
         this.index++;
         }
     public void print(){
@@ -61,6 +61,21 @@ class LnkdLst{
             return;
         }//Negative index
         if(n >= this.index){return;}
+        if(n == 0){
+            head = head.next;
+            this.index--;
+            return;
+        }
+        if(n == this.index - 1){//remove tail
+            Student current = head;
+            while(current.next != tail){
+                current = current.next;
+            }
+            current.next = null;
+            tail = current;
+            this.index--;
+            return;
+        }
         int index = 0;
         Student current = head;
         while( current != null && index < (n-1)){
@@ -81,19 +96,27 @@ class LnkdLst{
 public class PruebaLinkedList {
     public static void main(String[] args){
         LnkdLst lista = new LnkdLst();
+        lista.remove(4);
+        lista.print();
+
         lista.add("Linus", 90);
         lista.add("Ada", 95);
         lista.add("Paul", 78);
+        lista.add("Grace",100);
         lista.print();
-        Student found = lista.retrieve("Ada");
-        if (found != null) {
-            System.out.println("Found: " + found.name + " - " + found.score);
-        } else {
+        Student s = lista.retrieve("Ada");
+        if (s != null){
+            System.out.println("Found:" + s.name +" - "+ s.score);
+        }else{
             System.out.println("Student not found");
         }
-        lista.remove(3);
-        System.out.println("After removing the tree student:");
+        lista.remove(1);
+        System.out.println("After removing the second student");
         lista.print();
+        lista.remove(2);
+        System.out.println("After removig the thid student");
+        lista.print();
+
 
 
         }
