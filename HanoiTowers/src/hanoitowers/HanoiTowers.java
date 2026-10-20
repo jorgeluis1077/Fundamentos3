@@ -8,22 +8,23 @@ import java.util.Stack;
 public class HanoiTowers {
     static Scanner sc = new Scanner(System.in);
     static int numDiscos = 3;
-    static Stack<Integer>[]  torres = new Stack[3]; //Arreglo de pilas para representar las torres
+    static Stack<Integer>[] torres = new Stack[3]; // Arreglo de pilas para representar las torres
+
     public static void main(String[] args) {
         menuPrincipal();
+        
     }
     static int leerEntero() {
-        while (!sc.hasNextInt()) {
-            System.out.print("Ingresa un numero valido: ");
+        while (!sc.hasNextInt()){
+            System.out.println("Ingresa un numero valido: ");
             sc.next();
         }
         return sc.nextInt();
     }
-    public static void menuPrincipal() {
+    public static void menuPrincipal(){
         int opcion;
         do {
-            System.out.println("\n===== TORRES DE HANOI =====");
-            System.out.println("Número de discos actual: " + numDiscos);
+            System.out.println("\n======= TORRE DE HANOI =======");
             System.out.println("1. Elegir numero de discos (3-8)");
             System.out.println("2. Jugar manualmente");
             System.out.println("3. Mostrar solucion automatica");
@@ -41,74 +42,72 @@ public class HanoiTowers {
                     mostrarSolucion();
                     break;
                 case 4:
-                    System.out.println("Hasta luego.");
-                    break;
-                default:
-                    System.out.println("Opcion invalida.");
+                    System.out.println("Hasta luego");            
             }
-        } while (opcion !=4);
+        } while (opcion != 4);
     }
-    static void inicializaTorres() {
-        for (int i = 0; i < 3; i++) {
+    static void inicializaTorres(){
+        for (int i = 0; i < 3; i++){
             torres[i] = new Stack<>();
         }
         // Inicializa la torre A con los discos
-        for (int i = numDiscos; i >= 1; i--) {
+        for (int i = numDiscos; i >= 1; i--){
             torres[0].push(i);
         }
     }
-    static void despliegaTorre(int torre) {
-        System.out.print("Torre " + (char)('A' + torre) + ": ");
-        for (int disco : torres[torre]) {
-            System.out.print(disco + " ");
+    static void despliegaTorre(int torre){
+        System.out.println("Torre " + (char)('A' + torre) + ": ");
+        for (int disco : torres[torre]){
+            System.out.println(disco + " ");
         }
         System.out.println();
     }
-    static void despliegaTorres() {
-        for (int i = 0; i < 3; i++) {
+    static void despliegaTorres(){
+        for (int i = 0; i < 3; i++){
             despliegaTorre(i);
         }
     }
-
-    public static void elegirNumeroDiscos() {
+    public static void elegirNumeroDiscos(){
         int n;
         do {
-            System.out.print("Ingresa el numero de discos (3-8): ");
+            System.out.println("Ingresa el numero de discos (3-8): ");
             n = leerEntero();
             if (n < 3 || n > 8) {
                 System.out.println("Numero invalido. Debe estar entre 3 y 8.");
             }
         } while (n < 3 || n > 8);
         numDiscos = n;
+        
     }
     public static void jugarManual() {
         inicializaTorres();
-        while(numDiscos>torres[2].size()) {
-            // Lógica para jugar manualmente
+        
+        while(numDiscos > torres[2].size()){
+            // Logica para jugar manualmente
             despliegaTorres();
             String origen = eligeTorre("Elige la torre de origen (A, B, C): ");
-            String destino = eligeTorre("Elige la torre de destino (A, B, C): ");
-            int torreOrigen = origen.charAt(0) - 'A';
+            String destino = eligeTorre("Elige la torre destino (A, B, C): ");
+            int torreOrigen = origen.charAt(0)-'A';
             int torreDestino = destino.charAt(0) - 'A';
-            if (torres[torreOrigen].isEmpty()) {
+            if (torres[torreOrigen].isEmpty()){
                 System.out.println("La torre de origen está vacía. Intenta de nuevo.");
                 continue;
             }
-            if  (torreOrigen == torreDestino) {
-                System.out.println("La torre de origen y destino son las mismas. Intenta de nuevo.");
+            if (torreOrigen == torreDestino){
+                System.out.println("La torre de destino está vacía. Intenta e nuevo.");
                 continue;
             }
             moverDisco(torreOrigen, torreDestino);
         }
         System.out.println("¡Felicidades! Has completado el juego.");
     }
-    public static  boolean moverDisco(int origen, int destino) {
-        if (torres[origen].isEmpty()) {
+    public static boolean moverDisco(int origen, int destino){
+        if (torres[origen].isEmpty()){
             System.out.println("No hay discos en la torre de origen.");
             return false;
         }
-        if (!torres[destino].isEmpty() && torres[destino].peek() < torres[origen].peek()) {
-            System.out.println("Movimiento invalido. No puedes colocar un disco más grande sobre uno más pequeño.");
+        if (!torres[destino].isEmpty() && torres[destino].peek() < torres[origen].peek()){
+            System.out.println("Movimiento invalido. No puedes colocar un disco más grande sobre uno maás pequeño.");
             return false;
         }
         int disco = torres[origen].pop();
@@ -116,34 +115,34 @@ public class HanoiTowers {
         System.out.println("Moviste el disco " + disco + " de la torre " +(char)('A' + origen) + " a la torre " + (char)('A' + destino) + ".");
         return true;
     }
-    public static String eligeTorre(String mensaje) {
+    public static String eligeTorre(String mensaje){
         String torre;
-        do {
-            System.out.print(mensaje);
+        do{
+            System.out.println(mensaje);
             torre = sc.next().toUpperCase();
             if (!torre.equals("A") && !torre.equals("B") && !torre.equals("C")) {
-                System.out.println("Torre invalida. Debe ser A, B o C.");
+                System.out.println("Torre invalida, Debe ser A, B o C.");
             }
         } while (!torre.equals("A") && !torre.equals("B") && !torre.equals("C"));
         return torre;
     }
+    
     public static void mostrarSolucion() {
         inicializaTorres();
-        System.out.println("\n--- Solución Automática ---");
+        System.out.println("\nEstado inicial:");
         despliegaTorres();
-        resolverHanoi(numDiscos, 0, 2, 1);
-        System.out.println("¡Felicidades! se ha completado el juego.");
+        resuelveHanoi(numDiscos, 0, 2, 1);
+        System.out.println("\nProblema resuelto.");
     }
-
-    private static void resolverHanoi(int n, int origen, int destino, int auxiliar) {
-        if (n == 1) {
-            moverDisco(origen, destino);
-            despliegaTorres();
+    
+    static void resuelveHanoi(int n, int origen, int destino, int auxiliar) {
+        if (n == 0) {
             return;
         }
-        resolverHanoi(n - 1, origen, auxiliar, destino);
+        resuelveHanoi(n - 1, origen, auxiliar, destino);
         moverDisco(origen, destino);
         despliegaTorres();
-        resolverHanoi(n - 1, auxiliar, destino, origen);
+        System.out.println();
+        resuelveHanoi(n - 1, auxiliar, destino, origen);
     }
 }
