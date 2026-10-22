@@ -65,7 +65,30 @@ class ArbolBinario {
     //        System.out.println("Nombre econtrado" + this.nombre+" expediente:"+this.expediente);
 //        }
 //    }
+public Nodo buscarPorExpediente(int expediente) {
+        return buscarPorExpedienteRecursivo(raiz, expediente);
+    }
+
+    private Nodo buscarPorExpedienteRecursivo(Nodo nodo, int expediente) {
+        // Caso base: si el nodo es nulo o encontramos el expediente
+        if (nodo == null) {
+            return null;
+        }
+        if (nodo.expediente == expediente) {
+            return nodo;
+        }
+        
+        // Buscar primero en el subárbol izquierdo
+        Nodo encontrado = buscarPorExpedienteRecursivo(nodo.izquierda, expediente);
+        if (encontrado != null) {
+            return encontrado;
+        }
+        
+        // Si no está en la izquierda, buscar en el subárbol derecho
+        return buscarPorExpedienteRecursivo(nodo.derecha, expediente);
+    }
 }
+
 public class ArbolBinNombres{
     public static void main(String [] args){
         ArbolBinario ArbolB = new ArbolBinario();
@@ -79,5 +102,14 @@ public class ArbolBinNombres{
         ArbolB.inOrden();
         System.out.println("Ahora en reversa:");
         ArbolB.inOrdenReversa();
+        System.out.println("Buscar por expediente: ");
+        int expedienteBuscado = 7654;
+        Nodo resultado = ArbolB.buscarPorExpediente(expedienteBuscado);
+        
+        if (resultado != null) {
+            System.out.println("¡Encontrado! El expediente " + expedienteBuscado + " pertenece a: " + resultado.nombre);
+        } else {
+            System.out.println("No se encontró ningún registro con el expediente " + expedienteBuscado);
+        }
     }
 }
